@@ -39,6 +39,8 @@ Installation
 
 Node nerd? It's just an `npm i --global northwatcher` away. Otherwise you'll need to [install node and npm](https://gist.github.com/579814) and then run the aforementioned command.
 
+Once it's installed just run `northwatcher` from the command line. It does not daemonize itself, it only logs to stdout, and it doesn't run at startup. It's barely beyond "hack" status.
+
 Licensing
 =========
 
