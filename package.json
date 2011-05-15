@@ -1,0 +1,23 @@
+{ "name" : "northwatcher"
+, "description" : "NorthWatcher is cron for filesystem changes."
+, "version" : "0.1"
+, "homepage" : "http://samhuri.net/proj/northwatcher"
+, "author" : "Sami Samhuri <sami.samhuri@gmail.com>"
+, "repository" :
+  { "type" : "git"
+  , "url" : "http://github.com/samsonjs/northwatcher.git"
+  }
+, "bugs" :
+  { "mail" : "sami.samhuri@gmail.com"
+  , "web" : "http://github.com/samsonjs/northwatcher/issues"
+  }
+, "bin" : { "northwatcher" : "./northwatcher.js" }
+, "main" : "./northwatcher.js"
+, "engines" : { "node" : ">=0.4.0" }
+, "licenses" :
+  [ { "type" : "MIT"
+    , "url" : "http://github.com/samsonjs/northwatcher/raw/master/LICENSE"
+    }
+  ]
+, "dependencies" : { "batteries" : "0.1.x" }
+}
