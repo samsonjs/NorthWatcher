@@ -27,10 +27,7 @@ function main() {
 
     eachLine(rcFile, function(line) {
       // ignore comments and blank lines
-      if (line.match(/^\s*(#.*|)?$/)) {
-        console.log('>>> ignoring: "' + line + '"')
-        return
-      }
+      if (line.match(/^\s*(#.*|)?$/)) return
 
       line = line.trim() // don't want to match \s* everywhere
 
@@ -46,7 +43,7 @@ function main() {
                       }
         if (dir.charAt(0) !== '/') dir = path.resolve(process.env.HOME, dir)
         ensureDirectory(dir)
-        console.log('>>> watch line, trigger: ' + trigger + ', dir: ' + dir + ', command: ' + command)
+        console.log('>>> watch ' + line)
         watch(dir, options)
       }
 
@@ -76,11 +73,9 @@ var watchedDirs = {}
 
 function watch(dir, options) {
   if (dir in watchedDirs) {
-    console.log('>>> first watcher for ' + dir)
     watchedDirs[dir].push(options)
   }
   else {
-    console.log('>>> adding watcher for ' + dir)
     watchedDirs[dir] = [options]
     files[dir] = ls(dir)
     fs.watchFile(dir, watcherForDir(dir, options))
@@ -117,14 +112,7 @@ function runCommand(options) {
   process.env.WATCH_DIR = options.dir
   process.env.WATCH_CREATED = JSON.stringify(options.created)
   process.env.WATCH_REMOVED = JSON.stringify(options.removed)
-  console.log('WATCH_DIR=' + process.env.WATCH_DIR)
-  console.log('WATCH_CREATED=' + process.env.WATCH_CREATED)
-  console.log('WATCH_REMOVED=' + process.env.WATCH_REMOVED)
-  console.log('cmd:  ' + cmd)
-  console.log('args: ' + args.join(' '))
-  spawn(cmd, args).stdout.on('data', function(x) {
-    console.log('child>>> ' + x)
-  })
+  spawn(cmd, args)
 }
 
 function ls(dir) {
