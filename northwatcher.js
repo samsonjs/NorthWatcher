@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // NorthWatcher by Sami Samhuri 2011 MIT
 //
 // TODO:
