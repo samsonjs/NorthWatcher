@@ -1,6 +1,6 @@
 { "name" : "northwatcher"
 , "description" : "NorthWatcher is cron for filesystem changes."
-, "version" : "0.1.3"
+, "version" : "0.1.4"
 , "homepage" : "http://samhuri.net/proj/NorthWatcher"
 , "author" : "Sami Samhuri <sami.samhuri@gmail.com>"
 , "repository" :
