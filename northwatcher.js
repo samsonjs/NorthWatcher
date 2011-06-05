@@ -18,7 +18,7 @@ var fs = require('fs')
 
 function main() {
   var path = require('path')
-    , eachLine = require('batteries').FileExt.eachLine
+    , eachLine = require('batteries').fs.eachLine
     , rcFile = require('path').join(process.env.HOME, '.northwatcher')
 
   fs.stat(rcFile, function(err, s) {
@@ -35,7 +35,7 @@ function main() {
 
       // <trigger> <dir> <command>
       var m
-      if (m = line.match(/^([-+]{0,2})\s*(\S+)\s*(.+)$/i)) {
+      if (m = line.match(/^([-+]{0,2})\s*(\S+)\s+(.+)$/i)) {
         var trigger = m[1] || '+-' // default watches for both
           , dir = m[2]
           , command = m[3]
