@@ -15,11 +15,30 @@
 //  - *maybe* a minimum interval at which commands are run, e.g. at most once every 5 minutes
 
 var fs = require('fs')
+  , argv = require('optimist')
+             .alias('l', 'log')
+             .default('l', process.env.NORTHWATCHER_LOG)
+             .argv
+  , log
+
+if (argv.log) {
+  var logStream = fs.createWriteStream(argv.log, {
+    flags: 'a'
+  , mode: 0644
+  })
+  log = function (s) {
+    logStream.write(s + '\n')
+  }
+  process.on('exit', logStream.end.bind(logStream))
+}
+else {
+  log = console.log
+}
 
 function main() {
   var path = require('path')
     , eachLine = require('batteries').fs.eachLine
-    , rcFile = require('path').join(process.env.HOME, '.northwatcher')
+    , rcFile = argv._.shift() || require('path').join(process.env.HOME, '.northwatcher')
 
   fs.stat(rcFile, function(err, s) {
     if (err) {
@@ -45,7 +64,7 @@ function main() {
                       }
         if (dir.charAt(0) !== '/') dir = path.resolve(process.env.HOME, dir)
         ensureDirectory(dir)
-        console.log('>>> watch ' + line)
+        log('>>> watch ' + line)
         watch(dir, options)
       }
 
@@ -92,7 +111,7 @@ function watcherForDir(dir, options) {
       , c = unset(setDiff(newFiles, files[dir]))
       , r = unset(setDiff(files[dir], newFiles))
     files[dir] = newFiles
-    console.log('>>> ' + dir + ' changed! c: ' + JSON.stringify(c) + ' r: ' + JSON.stringify(r))
+    log('>>> ' + dir + ' changed! c: ' + JSON.stringify(c) + ' r: ' + JSON.stringify(r))
     watchedDirs[dir].forEach(function(o) {
       if (c.length > 0 && o.create || r.length > 0 && o.remove) {
         runCommand({ command: o.command
@@ -106,7 +125,7 @@ function watcherForDir(dir, options) {
 }
 
 function runCommand(options) {
-  console.log('>>> running command: ' + options.command)
+  log('>>> running command: ' + options.command)
   var spawn = require('child_process').spawn
     // TODO quoting
     , args = options.command.split(/\s+/)
@@ -173,7 +192,7 @@ function spiel() {
   , "No frills."
   , ""
   , "Create a watch file and then run NorthWatcher again."
-  ].forEach(function(s) { console.log(s) })
+  ].forEach(function(s) { log(s) })
 }
 
 if (require.main === module) main()
