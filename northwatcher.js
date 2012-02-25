@@ -54,10 +54,10 @@ function main() {
 
       // <trigger> <dir> <command>
       var m
-      if (m = line.match(/^([-+]{0,2})\s*(\S+)\s+(.+)$/i)) {
+      if (m = line.match(/^([-+]{0,2})\s*(?:"([^"]+)"|(\S+))\s+(.+)$/i)) {
         var trigger = m[1] || '+-' // default watches for both
-          , dir = m[2]
-          , command = m[3]
+          , dir = m[2] || m[3]
+          , command = m[4]
           , options = { create: trigger.indexOf('+') !== -1
                       , remove: trigger.indexOf('-') !== -1
                       , command: command
@@ -181,7 +181,9 @@ function spiel() {
   , "    - todo update-remote-todo-list.sh"
   , ""
   , "So each line has an optional trigger followed by a directory and"
-  , "then a command. The triggers are:"
+  , "then a command. The directory can be quoted if it contains spaces."
+  , ""
+  , "The triggers are:"
   , ""
   , "    +  files are created"
   , "    -  files are removed"
